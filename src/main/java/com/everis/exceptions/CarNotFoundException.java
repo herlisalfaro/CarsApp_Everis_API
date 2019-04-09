@@ -10,6 +10,10 @@ public class CarNotFoundException extends Exception {
 		super();
 		this.carId = carId;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
 	public String getMessage() {
 		return "Car with id " +this.carId+ " not found";
 	}
