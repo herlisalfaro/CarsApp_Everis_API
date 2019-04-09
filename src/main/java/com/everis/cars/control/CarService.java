@@ -18,15 +18,15 @@ public class CarService {
 		 return listCars;
 	}
 	
-	public Car getCar(final int id) {
-		Car car = em.find(Car.class, id);
-		return  car; 
+	
+	public List <Car> getCar(final int id) {
+		List <Car> oneCar = em.createNamedQuery("Car.findById", Car.class).getResultList();
+		return  oneCar; 
 		
 	}
 	
 	public Car createCar(final Car car) throws CarNotFoundException {
-		@SuppressWarnings("unchecked")
-		List <Car> listCars = em.createNamedQuery("Car.findById").setParameter("id", car.getId()).getResultList();
+		List <Car> listCars = em.createNamedQuery("Car.findById", Car.class).setParameter("id", car.getId()).getResultList();
 		if(!listCars.contains(car)) {
 			em.persist(car);
 			return car;		
@@ -36,23 +36,27 @@ public class CarService {
 		
 	}
 	
-	public Car updateCar(final Car car) throws ExistingCarException {
-		@SuppressWarnings("unchecked")
-		List<Car> rList = em.createNamedQuery("Car.findById").setParameter("id", car.getId()).getResultList();
+	/* Description.
+	 * @public
+	 * @param {com.everis.cars.Car} [car] The Car Entity with the updated data	
+	 * @returns {com.everis.cars.Car} The updated Car Entity, merged into the Entity Manager
+	 **/
+	public Car updateCar(final Car car) throws DuplicatedCarException {
+		List<Car> rList = em.createNamedQuery("Car.findById",Car.class).setParameter("id", car.getId()).getResultList();
 		if(rList.size() > 0) {
 			em.persist(car);
 			return car;
 		}else {
-			throw new ExistingCarException(car.getId()); 
+			throw new DuplicatedCarException(car.getId()); 
 		}
 	}
 	
-	public void deleteCar(final int id) throws NonExistingCarException {
-		Car carId = em.find(Car.class, id);
+	public void deleteCar(final int id) throws CarNotFoundException {
+		List<Car> carId = em.createNamedQuery("Car.findById", Car.class).getResultList();
 		if(carId != null){
 			em.remove(id);
 		}else {
-			throw new NonExistingCarException(id);
+			throw new CarNotFoundException(id);
 		}
 		
 		
