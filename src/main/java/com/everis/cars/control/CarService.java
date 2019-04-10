@@ -43,17 +43,10 @@ public class CarService {
 	 * 
 	 * @param {com.everis.cars.Car} [car] Created Car Entity data
 	 * @return {com.everis.cars.Car} Created Car Entity merged into the Entity Manager
-	 * @throws CarNotFoundException Car Entity's id not found
 	 */
-	public Car createCar(final Car car) throws CarNotFoundException {
-		List <Car> listCars = em.createNamedQuery("Car.findById", Car.class).setParameter("id", car.getId()).getResultList();
-		if(!listCars.contains(car)) {
-			em.persist(car);
-			return car;		
-		}else {
-			throw new CarNotFoundException(car.getId());
-		}
-		
+	public Car createCar(final Car car)  {
+		em.persist(car);
+		return car;	
 	}
 	
 	

@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="cars")
-
 @NamedQueries({
 	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c"),
 	@NamedQuery(name="Car.findById", query = "SELECT c FROM Car c WHERE c.id= :id")
@@ -27,7 +26,7 @@ public class Car {
 	private Timestamp registration;
 	
 	@Column(name="country")
-	private Timestamp country; 
+	private String country; 
 	
 	@Column(name="created_at")
 	private Timestamp createdAt; 
@@ -63,11 +62,11 @@ public class Car {
 		this.registration = registration;
 	}
 
-	public Timestamp getCountry() {
+	public String getCountry() {
 		return country;
 	}
 
-	public void setCountry(Timestamp country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 
