@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response.Status;
 import com.everis.cars.control.CarService;
 import com.everis.cars.entity.Car;
 import com.everis.exceptions.CarNotFoundException;
-import com.everis.exceptions.DuplicatedCarException;
 
 @Path("cars")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,14 +27,15 @@ public class CarResources {
 	CarService carService;
 	
 	@GET
-	public List<Car> getCars() {
-		return carService.getCars(); 
+	public Response getCars() {
+		return Response.status(Status.ACCEPTED).entity(carService.getCars()).build(); 
 	}
 	
 	@GET
 	@Path("/{id}")
-	public List<Car> getCar(@PathParam("id") int id) {
-		return carService.getCar(id); 
+	public Response getCar(@PathParam("id") int id) {
+		return Response.status(Status.ACCEPTED).entity(carService.getCar(id)).build();   
+		
 	
 	}
 	
@@ -50,8 +50,8 @@ public class CarResources {
 		car.setId(id);
 		try {
 			return Response.status(Status.ACCEPTED).entity(carService.updateCar(car)).build();
-		} catch (DuplicatedCarException e) {
-			return Response.status(400).build();
+		} catch (CarNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 	    
@@ -60,7 +60,7 @@ public class CarResources {
 	public Response deleteCar(@PathParam("id") int id) {
 		try {
 			carService.deleteCar(id);
-			return Response.noContent().build();
+			return Response.status(Status.ACCEPTED).build();
 		} catch (CarNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}

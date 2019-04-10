@@ -46,7 +46,7 @@ public class CarService {
 	 */
 	public Car createCar(final Car car)  {
 		em.persist(car);
-		return car;	
+		return car;
 	}
 	
 	
@@ -57,13 +57,13 @@ public class CarService {
 	 * @return {com.everis.cars.Car} Updated Car Entity merged into the Entity Manager
 	 * @throws DuplicatedCarException Car Entity's id duplication
 	 */
-	public Car updateCar(final Car car) throws DuplicatedCarException {
+	public Car updateCar(final Car car) throws CarNotFoundException {
 		List<Car> rList = em.createNamedQuery("Car.findById",Car.class).setParameter("id", car.getId()).getResultList();
 		if(rList.size() > 0) {
 			em.persist(car);
 			return car;
 		}else {
-			throw new DuplicatedCarException(car.getId()); 
+			throw new CarNotFoundException(car.getId()); 
 		}
 	}
 	
