@@ -2,6 +2,7 @@ package com.everis.cars.entity;
 
 import java.sql.Timestamp;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 
 
@@ -14,14 +15,18 @@ import javax.persistence.*;
 
 public class Car {
 	
+	@NotNull
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO) 
 	@Column(name="id")
 	private int id;
 	
+	@NotNull
+	@Max(60)
 	@Column(name="brand")
 	private String brand;
 	
+	@NotNull
 	@Column(name="registration")
 	private Timestamp registration;
 	
