@@ -14,7 +14,6 @@ public class CarService {
 	@PersistenceContext(unitName = "em_postgre")
 	private EntityManager em;
 	
-	
 	/**
 	 * Method to get a list of Car Entities available
 	 * 
@@ -32,9 +31,9 @@ public class CarService {
 	 * @param {com.everis.cars.Car} [id] Car Entity's id
 	 * @return {com.everis.cars.CarService} [oneCar] Car Entity found by its id
 	 */
-	public List <Car> getCar(final int id) {
-		List <Car> oneCar = em.createNamedQuery("Car.findById", Car.class).getResultList();
-		return  oneCar; 
+	public Car getCar(final int id) {
+		Car oneCar = em.find(Car.class, id);
+		return oneCar;
 		
 	}
 	
@@ -74,13 +73,12 @@ public class CarService {
 	 * @throws CarNotFoundException Car Entity's id not found 
 	 */
 	public void deleteCar(final int id) throws CarNotFoundException {
-		List<Car> carId = em.createNamedQuery("Car.findById", Car.class).getResultList();
+		Car carId = em.find(Car.class, id);
 		if(carId != null){
 			em.remove(id);
 		}else {
 			throw new CarNotFoundException(id);
 		}
-		
 		
 		
 	}

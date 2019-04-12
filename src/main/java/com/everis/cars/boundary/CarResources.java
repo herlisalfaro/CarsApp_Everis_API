@@ -1,6 +1,6 @@
 package com.everis.cars.boundary;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -13,16 +13,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import com.everis.cars.control.CarService;
+import com.everis.cars.validatorUtils.*;
 import com.everis.cars.entity.Car;
 import com.everis.exceptions.CarNotFoundException;
+
 
 @Path("cars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CarResources {
+	
 	@EJB
 	CarService carService;
 	
@@ -33,15 +37,26 @@ public class CarResources {
 	
 	@GET
 	@Path("/{id}")
-	public Response getCar(@PathParam("id") int id) {
-		return Response.status(Status.ACCEPTED).entity(carService.getCar(id)).build();   
-		
+	public Response getCar(@PathParam("id") int carId) {
+		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(carId); 
+		if(validatorsErrors.isEmpty()) {
+			return Response.ok().entity(carService.getCar(carId)).build();
+		}else {
+			return Response.status(Status.BAD_REQUEST).build(); 
+			  }
 	
 	}
 	
 	@POST
 	public Response createCar(Car car) {
-		return Response.status(Status.CREATED).entity(carService.createCar(car)).build(); 
+		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car); 
+		if(validatorsErrors.isEmpty()) {
+			return Response.status(Status.CREATED).entity(carService.createCar(car)).build(); 
+		}else {
+			return Response.status(Status.BAD_REQUEST).build(); 	
+			  }
+		
+		
 	}
 	
 	@PUT
@@ -57,13 +72,12 @@ public class CarResources {
 	    
 	@DELETE
 	@Path("/{id}")
-	public Response deleteCar(@PathParam("id") int id) {
-		try {
-			carService.deleteCar(id);
-			return Response.status(Status.ACCEPTED).build();
-		} catch (CarNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+	public Response deleteCar(@PathParam("id") int carId) {
+			final ArrayList<String> validatorsErrors = ValidatorUtil.validate(carId); 
+			if(validatorsErrors.isEmpty()) {
+				return Response.ok().entity(carService.deleteCar(carId)).build();
+				
 		}
-		
-	}
+}
+
 }
