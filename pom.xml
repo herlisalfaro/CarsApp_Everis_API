@@ -55,21 +55,32 @@
 			<version>2.2.4</version>
 		</dependency>
 		<dependency>
-    		<groupId>log4j</groupId>
-    		<artifactId>log4j</artifactId>
-    		<version>1.2.17</version>
-		</dependency>
-		
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-api</artifactId>
+   		 	<version>2.11.2</version>
+ 		 </dependency>
+  		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+    		<version>2.11.2</version>
+  		</dependency>
 	<dependency>
     	<groupId>io.swagger</groupId>
     	<artifactId>swagger-core</artifactId>
     	<version>2.0.0-rc2</version>
 	</dependency>
 	<dependency>
+<<<<<<< HEAD
     	<groupId>org.glassfish.jersey.media</groupId>
     	<artifactId>jersey-media-json-jackson</artifactId>
    	 	<version>2.28</version>
 	</dependency>
 	
+=======
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-json-jackson</artifactId>
+    <version>2.28</version>
+</dependency>
+>>>>>>> 4398eea9a065ca11e858f212f463ed7e7c063c84
   </dependencies>
 </project>

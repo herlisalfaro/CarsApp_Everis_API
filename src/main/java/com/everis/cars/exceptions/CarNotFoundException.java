@@ -1,4 +1,4 @@
-package com.everis.exceptions;
+package com.everis.cars.exceptions;
 
 import java.lang.Exception;
 

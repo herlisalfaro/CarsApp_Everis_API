@@ -10,8 +10,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="cars")
 @NamedQueries({
-	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c"),
-	@NamedQuery(name="Car.findById", query = "SELECT c FROM Car c WHERE c.id= :id")
+	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c")
 })
 
 public class Car {
@@ -91,11 +90,14 @@ public class Car {
 
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	@Override
+	public String toString() {
+		return "Car [id=" + id + ", brand=" + brand + ", registration=" + registration + ", country=" + country
+				+ ", createdAt=" + createdAt + ", lastUpdated=" + lastUpdated + "]";
 	} 
 	
-	public String toString() {
-		 return id + " " + brand + " " + registration + " " + createdAt + " " + lastUpdated;
-	}
 	
 	
 	
