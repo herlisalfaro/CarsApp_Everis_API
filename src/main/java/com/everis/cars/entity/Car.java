@@ -2,6 +2,9 @@ package com.everis.cars.entity;
 
 import java.sql.Timestamp;
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
+
 
 
 
@@ -19,12 +22,16 @@ public class Car {
 	private int id;
 	
 	@Column(name="brand")
+	@NotNull(message = "Brand cannot be null")
+	@Size(min = 5, max = 20)
 	private String brand;
 	
 	@Column(name="registration")
 	private Timestamp registration;
 	
 	@Column(name="country")
+	@Size(min = 1, max = 20)
+	@NotNull(message="Country cannot be null")
 	private String country; 
 	
 	@Column(name="created_at")

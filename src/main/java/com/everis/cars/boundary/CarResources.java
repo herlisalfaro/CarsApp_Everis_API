@@ -21,6 +21,7 @@ import com.everis.cars.entity.Car;
 import com.everis.cars.exceptions.CarNotFoundException;
 import com.everis.cars.utils.ValidatorUtil;
 
+
 @Path("cars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,9 +64,9 @@ public class CarResources {
 		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car);
 		if (validatorsErrors.isEmpty()) {
 			try {
-				car.setId(id);
+				//car.setId(id);
 				carService.updateCar(id, car);
-				return Response.ok().entity("Car Updated Succesfully").build();
+				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
 				return Response.status(Status.NOT_FOUND).build();
 			}
