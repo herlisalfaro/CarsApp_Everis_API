@@ -1,13 +1,12 @@
-package com.everis.exceptions;
+package com.everis.cars.exceptions;
 
 import java.lang.Exception;
 
-
 @SuppressWarnings("serial")
-public class DuplicatedCarException extends Exception {
+public class CarNotFoundException extends Exception {
 	private final int carId;
 
-	public DuplicatedCarException(int carId) {
+	public CarNotFoundException(int carId) {
 		super();
 		this.carId = carId;
 	}
@@ -16,6 +15,8 @@ public class DuplicatedCarException extends Exception {
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	public String getMessage() {
-		return "Duplicated indetificator: " +this.carId;
+		return "Car with id " +this.carId+ " not found";
 	}
+	
+	
 }

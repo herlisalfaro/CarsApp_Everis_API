@@ -2,14 +2,16 @@ package com.everis.cars.entity;
 
 import java.sql.Timestamp;
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
+
 
 
 
 @Entity
 @Table(name="cars")
 @NamedQueries({
-	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c"),
-	@NamedQuery(name="Car.findById", query = "SELECT c FROM Car c WHERE c.id= :id")
+	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c")
 })
 
 public class Car {
@@ -20,12 +22,16 @@ public class Car {
 	private int id;
 	
 	@Column(name="brand")
+	@NotNull(message = "Brand cannot be null")
+	@Size(min = 5, max = 20)
 	private String brand;
 	
 	@Column(name="registration")
 	private Timestamp registration;
 	
 	@Column(name="country")
+	@Size(min = 1, max = 20)
+	@NotNull(message="Country cannot be null")
 	private String country; 
 	
 	@Column(name="created_at")
@@ -84,11 +90,14 @@ public class Car {
 
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	@Override
+	public String toString() {
+		return "Car [id=" + id + ", brand=" + brand + ", registration=" + registration + ", country=" + country
+				+ ", createdAt=" + createdAt + ", lastUpdated=" + lastUpdated + "]";
 	} 
 	
-	public String toString() {
-		 return id + " " + brand + " " + registration + " " + createdAt + " " + lastUpdated;
-	}
 	
 	
 	
