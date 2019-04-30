@@ -41,7 +41,7 @@ public class CarResources {
 			return Response.ok().entity(carService.getCar(id)).build();
 
 		} catch (CarNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
 		}
 
 	}
@@ -53,7 +53,7 @@ public class CarResources {
 		if (validatorsErrors.isEmpty()) {
 			return Response.status(Status.CREATED).entity(carService.createCar(car)).build();
 		} else {
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).entity(validatorsErrors).build();
 		}
 
 	}
@@ -64,15 +64,14 @@ public class CarResources {
 		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car);
 		if (validatorsErrors.isEmpty()) {
 			try {
-				//car.setId(id);
 				carService.updateCar(id, car);
 				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
-				return Response.status(Status.NOT_FOUND).build();
+				return Response.status(Status.NOT_FOUND).entity(validatorsErrors).build();
 			}
 
 		} else {
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).entity(validatorsErrors).build();
 		}
 	}
 
@@ -83,7 +82,7 @@ public class CarResources {
 			carService.deleteCar(id);
 			return Response.ok().entity("Car Deleted Successfully").build();
 		} catch (CarNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
 		}
 	}
 }
