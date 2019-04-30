@@ -218,7 +218,7 @@
 						"id": "75c23dc9-3fe4-4187-9b61-a3f5e4342d9c",
 						"exec": [
 							"",
-							"var env = pm.environment.set(\"carId\", 10);",
+							"pm.environment.set(\"carId\", 0);",
 							"",
 							"pm.test(\"Car Not Found Exception\", function () {",
 							"    pm.response.to.have.status(404);",
@@ -321,15 +321,13 @@
 					"script": {
 						"id": "9d9afbcd-f399-4538-866d-31b75124b394",
 						"exec": [
-							"var env = pm.environment.set(\"carId\", 0);",
+							"pm.environment.set(\"carId\", 0);",
 							"",
 							"pm.test(\"Car Not Found Exception\", function () {",
 							"    pm.response.to.have.status(404);",
 							"});",
 							"",
-							"pm.test(\"Response should throw a brand error\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Brand cannot be null\");",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -346,7 +344,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"country\": \"Disaster Village\"\n\t\n}"
+					"raw": "{\n\t\"brand\": \"Cool_Car15\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/cars/cars/{{carId}}",
@@ -468,7 +466,7 @@
 	],
 	"variable": [
 		{
-			"id": "b58acd2a-8d48-41f9-9ebf-742395605ec3",
+			"id": "43a7ac6f-bee7-474f-930c-9bd15844d4ca",
 			"key": "carId",
 			"value": "1",
 			"type": "string"
