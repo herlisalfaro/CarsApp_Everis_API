@@ -1,0 +1,475 @@
+{
+	"info": {
+		"_postman_id": "a9bc2bd2-2696-4523-b9f2-857fad5a5467",
+		"name": "Cars_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createCar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b44e9e94-8ba5-4cf2-8d5e-e81876de25f7",
+						"exec": [
+							"var response = pm.response.json();",
+							"",
+							"pm.environment.set(\"carId\", response.id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Created car contains the right brand\", function () {",
+							"    pm.expect(response.brand).to.eql(\"Cool_Car1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"brand\": \"Cool_Car1\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCar Errors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b44e9e94-8ba5-4cf2-8d5e-e81876de25f7",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"response should throw a brand error\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Brand cannot be null\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"country\": \"Disaster Village\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ee3575c-4c24-44ab-9518-505c72bdce77",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCarById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "90917e79-49fd-41dd-9b35-1d127276d442",
+						"exec": [
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.environment.set(\"carId\", response.id);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCarById Errors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75c23dc9-3fe4-4187-9b61-a3f5e4342d9c",
+						"exec": [
+							"",
+							"pm.environment.set(\"carId\", 0);",
+							"",
+							"pm.test(\"Car Not Found Exception\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5082600-dd9a-4820-8691-3d5ed831b732",
+						"exec": [
+							"var response = pm.response.json();",
+							"pm.environment.set(\"carId\", response.id);",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Updated car contains the right brand\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Cool_Car13\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 3,\n\t\"brand\": \"Cool_Car13\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCar Errors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d9afbcd-f399-4538-866d-31b75124b394",
+						"exec": [
+							"pm.environment.set(\"carId\", 0);",
+							"",
+							"pm.test(\"Car Not Found Exception\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"brand\": \"Cool_Car15\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dae00940-7238-45ef-bdad-94faf0245bb7",
+						"exec": [
+							"pm.test(\"Deleted Car should send a success message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Car Deleted Successfully\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCar Errors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8dd9b3b-3151-4406-9e76-4c53e605e91d",
+						"exec": [
+							"pm.environment.set(\"carId\", 0);",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Deleted Car should send a fail message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Car with id 0 not found\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars",
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "43a7ac6f-bee7-474f-930c-9bd15844d4ca",
+			"key": "carId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

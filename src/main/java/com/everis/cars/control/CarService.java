@@ -1,16 +1,23 @@
 package com.everis.cars.control;
 
 import javax.persistence.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.ejb.Stateless;
 
 import com.everis.cars.entity.Car;
 import com.everis.cars.exceptions.*;
+
 
 import java.util.List;
 
 @Stateless
 public class CarService {
 
+	private final static Logger LOGGER = LogManager.getLogger(CarService.class);
+	
 	@PersistenceContext(unitName = "em_postgre")
 	private EntityManager em;
 
@@ -20,8 +27,12 @@ public class CarService {
 	 * @return {com.everis.cars.CarService} [listCars] List of Car Entities
 	 */
 	public List<Car> getCars() {
+		
+		LOGGER.info("Getting all Cars' List: ");
 		List<Car> listCars = em.createNamedQuery("Car.findAll", Car.class).getResultList();
+		LOGGER.info("Car's List completed: " + listCars);
 		return listCars;
+		
 	}
 
 	/**
@@ -31,14 +42,20 @@ public class CarService {
 	 * @return {com.everis.cars.CarService} [oneCar] Car Entity found by its id
 	 * @throws CarNotFoundException Throws the exception if there's no car with the sent id
 	 */
-	public Car getCar(final int id) throws CarNotFoundException {
+	public Car getCarById(final int id) throws CarNotFoundException {
 
+		LOGGER.info("Starting process for Getting Car's Id: ");
 		Car oneCar = em.find(Car.class, id);
 		if (oneCar != null) {
+			LOGGER.info("Car selected: "+ oneCar);
 			return oneCar;
+			
 
 		} else {
+			LOGGER.error("CarNotFoundException for id " + id + " thrown");
 			throw new CarNotFoundException(id);
+			
+			
 		}
 
 	}
@@ -52,7 +69,10 @@ public class CarService {
 	 *         Manager
 	 */
 	public Car createCar(final Car car) {
+		
+		LOGGER.info("Starting process for Creating Car: ");
 		em.persist(car);
+		LOGGER.info("Created Car: " + car);
 		return car;
 	}
 
@@ -66,8 +86,11 @@ public class CarService {
 	 * @throws CarNotFoundException Car Entity's id not found
 	 */
 	public Car updateCar(final int id, final Car car) throws CarNotFoundException {
-		getCar(id);
+		
+		LOGGER.info("Starting process for Updating Car");
+		getCarById(id);
 		em.merge(car);
+		LOGGER.info("Updated Car: " + car);
 		return car;
 
 	}
@@ -79,8 +102,12 @@ public class CarService {
 	 * @throws CarNotFoundException Car Entity's id not found
 	 */
 	public void deleteCar(final int id) throws CarNotFoundException {
-		final Car oneCar = getCar(id);
+		
+		LOGGER.info("Starting process for Deleting Car: ");
+		final Car oneCar = getCarById(id);
+		LOGGER.info("Car's Id chosen for delete: " + id);
 		em.remove(oneCar);
+		LOGGER.info("Deleted Car: " + oneCar);
 	}
 
 }
