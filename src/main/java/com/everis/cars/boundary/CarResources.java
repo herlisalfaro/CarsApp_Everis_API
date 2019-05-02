@@ -25,11 +25,20 @@ import com.everis.cars.entity.Car;
 import com.everis.cars.exceptions.CarNotFoundException;
 import com.everis.cars.utils.ValidatorUtil;
 
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+
 
 
 @Path("cars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@OpenAPIDefinition( info = @Info(
+        title = "CarsApp_API",
+        version = "0.0",
+        description = "Car' CRUD Functionality"))
 public class CarResources {
 	
 	private final static Logger LOGGER = LogManager.getLogger(CarResources.class);
@@ -38,6 +47,8 @@ public class CarResources {
 	CarService carService;
 
 	@GET	
+	@Operation(description = "Get a list of cars")
+	@ApiResponse(responseCode = "200", description= "Returns List of Cars Available")
 	public Response getCars() {
 		
 		LOGGER.info("Retrieving Car's List from Service: ");
@@ -49,6 +60,12 @@ public class CarResources {
 
 	@GET
 	@Path("/{id}")
+	@Operation(description = "Pick a Car by its Id",
+				responses = {
+						@ApiResponse(responseCode = "200",description= "Returns an entity Car by its Id"),
+						@ApiResponse(responseCode = "404", description= "Car with such id doesn't exists")
+				})
+	@Parameter(description = "Car's Id selected by the user", required = true)
 	public Response getCarById(final @PathParam("id") int id) {
 		
 		try {
@@ -64,6 +81,21 @@ public class CarResources {
 	}
 
 	@POST
+	@Operation(
+		    description = "Create new car",
+		    responses = {
+		        @ApiResponse(
+		            responseCode = "200",
+		            description = "Car has been created"
+		        ),
+		        @ApiResponse(
+		            responseCode = "400", 
+		            description = "Could not create a new car"
+		        )
+		     }
+		    
+		)
+	@Parameter(description = "Object Car to be created", required = true ) 
 	public Response createCar(final Car car) {
 
 		LOGGER.info("Creating Car: ");
@@ -80,6 +112,26 @@ public class CarResources {
 
 	@PUT
 	@Path("/{id}")
+	@Operation(
+		    description = "Create new car",
+		    responses = {
+		        @ApiResponse(
+		            responseCode = "200",
+		            description = "Car has been created"
+		        ),
+		        @ApiResponse(
+		            responseCode = "400", 
+		            description = "Could not create a new car"
+		        ),
+		        @ApiResponse(
+			            responseCode = "404", 
+			            description = "Car with such id doesn't exists"
+			        )
+		     }
+		    
+		)
+	@Parameter(description = "Car Id to be updated", required = true )
+	@Parameter(description = "Object Car to be updated", required = true )
 	public Response updateCar(final @PathParam("id") int id, final Car car) {
 		
 		LOGGER.info("Updating Car: ");
@@ -102,7 +154,23 @@ public class CarResources {
 
 	@DELETE
 	@Path("/{id}")
+	@Operation(
+		    description = "Delete existing car",
+		    responses = {
+		        @ApiResponse(
+		            responseCode = "200",
+		            description = "Car has been deleted"
+		        ),
+		        @ApiResponse(
+		            responseCode = "404", 
+		            description = "Car with such id doesn't exists"
+		        )
+		     }
+		    
+		)
+	@Parameter(description = "Car's Id selected by the user", required = true ) 
 	public Response deleteCar(final @PathParam("id") int id) {
+		
 		try {
 			carService.deleteCar(id);
 			LOGGER.info("Car with id: " + id + "Deleted");
