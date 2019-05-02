@@ -28,7 +28,7 @@ public class CarService {
 	 */
 	public List<Car> getCars() {
 		
-		LOGGER.info("Starting process for 'getCars()' : ");
+		LOGGER.info("Getting all Cars' List: ");
 		List<Car> listCars = em.createNamedQuery("Car.findAll", Car.class).getResultList();
 		LOGGER.info("Car's List completed: " + listCars);
 		return listCars;
@@ -44,7 +44,7 @@ public class CarService {
 	 */
 	public Car getCarById(final int id) throws CarNotFoundException {
 
-		LOGGER.info("Starting process for 'getCar()' : ");
+		LOGGER.info("Starting process for Getting Car's Id: ");
 		Car oneCar = em.find(Car.class, id);
 		if (oneCar != null) {
 			LOGGER.info("Car selected: "+ oneCar);
@@ -70,7 +70,7 @@ public class CarService {
 	 */
 	public Car createCar(final Car car) {
 		
-		LOGGER.info("Starting process for 'createCar()' : ");
+		LOGGER.info("Starting process for Creating Car: ");
 		em.persist(car);
 		LOGGER.info("Created Car: " + car);
 		return car;
@@ -87,7 +87,7 @@ public class CarService {
 	 */
 	public Car updateCar(final int id, final Car car) throws CarNotFoundException {
 		
-		LOGGER.info("Starting process for 'updateCar()' : ");
+		LOGGER.info("Starting process for Updating Car");
 		getCarById(id);
 		em.merge(car);
 		LOGGER.info("Updated Car: " + car);
@@ -103,7 +103,7 @@ public class CarService {
 	 */
 	public void deleteCar(final int id) throws CarNotFoundException {
 		
-		LOGGER.info("Starting process for 'updateCar()' : ");
+		LOGGER.info("Starting process for Deleting Car: ");
 		final Car oneCar = getCarById(id);
 		LOGGER.info("Car's Id chosen for delete: " + id);
 		em.remove(oneCar);

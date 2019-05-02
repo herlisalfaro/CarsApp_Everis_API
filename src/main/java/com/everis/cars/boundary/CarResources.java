@@ -1,6 +1,7 @@
 package com.everis.cars.boundary;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -25,6 +26,7 @@ import com.everis.cars.exceptions.CarNotFoundException;
 import com.everis.cars.utils.ValidatorUtil;
 
 
+
 @Path("cars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,10 +37,13 @@ public class CarResources {
 	@EJB
 	CarService carService;
 
-	@GET
+	@GET	
 	public Response getCars() {
-		LOGGER.info("Method 'getCars()' Response completed");
-		return Response.ok().entity(carService.getCars()).build();
+		
+		LOGGER.info("Retrieving Car's List from Service: ");
+		List<Car> cars = carService.getCars();
+		LOGGER.info("Car's List Retrieved");
+		return Response.ok().entity(cars).build();
 		
 	}
 
@@ -47,11 +52,12 @@ public class CarResources {
 	public Response getCarById(final @PathParam("id") int id) {
 		
 		try {
-			LOGGER.info("Method 'getCarById()' Response completed");
+			
+			LOGGER.info("Getting Car by its Id: "+ id);
 			return Response.ok().entity(carService.getCarById(id)).build();
 
 		} catch (CarNotFoundException e) {
-			LOGGER.error("CarNotFoundException for id " + id + " thrown");
+			LOGGER.error("Car with id " + id + "Not Found");
 			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
 		}
 
@@ -60,13 +66,13 @@ public class CarResources {
 	@POST
 	public Response createCar(final Car car) {
 
-		LOGGER.info("Starting 'createCar()' Response: ");
+		LOGGER.info("Creating Car: ");
 		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car);
 		if (validatorsErrors.isEmpty()) {
-			LOGGER.info("Created Car: "+ car);
+			LOGGER.info("Car" + car + "Created");
 			return Response.status(Status.CREATED).entity(carService.createCar(car)).build();
 		} else {
-			LOGGER.error("Method 'createCar()' failed to create new car");
+			LOGGER.error("Failed to create new car");
 			return Response.status(Status.BAD_REQUEST).entity(validatorsErrors).build();
 		}
 
@@ -76,20 +82,20 @@ public class CarResources {
 	@Path("/{id}")
 	public Response updateCar(final @PathParam("id") int id, final Car car) {
 		
-		LOGGER.info("Starting Method 'updateCar()' Response: ");
+		LOGGER.info("Updating Car: ");
 		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car);
 		if (validatorsErrors.isEmpty()) {
 			try {
 				carService.updateCar(id, car);
-				LOGGER.info("Updated Car: " + car + "with id: " + id);
+				LOGGER.info(car + "with id: " + id + "Updated");
 				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
-				LOGGER.error("CarNotFoundException for Car " + car + "with id: " + id);
+				LOGGER.error("Car " + car + "with id: " + id + "Not Found");
 				return Response.status(Status.NOT_FOUND).entity(validatorsErrors).build();
 			}
 
 		} else {
-			LOGGER.error("Method 'updateCar()' failed to update car with id "+ id);
+			LOGGER.error("Failed to update car with id "+ id);
 			return Response.status(Status.BAD_REQUEST).entity(validatorsErrors).build();
 		}
 	}
@@ -99,10 +105,10 @@ public class CarResources {
 	public Response deleteCar(final @PathParam("id") int id) {
 		try {
 			carService.deleteCar(id);
-			LOGGER.info("Deleted Car with id: " + id);
+			LOGGER.info("Car with id: " + id + "Deleted");
 			return Response.ok().entity("Car Deleted Successfully").build();
 		} catch (CarNotFoundException e) {
-			LOGGER.error("CarNotFoundException for Car with id: " + id);
+			LOGGER.error("Failed to delete Car with id: " + id);
 			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
 		}
 	}
