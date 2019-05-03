@@ -135,10 +135,10 @@ public class CarResources {
 
 		try {
 			carService.deleteCar(id);
-			LOGGER.info("Car with id: " + id + "Deleted");
+			LOGGER.info("Car with id " + id + " Deleted");
 			return Response.ok().entity("Car Deleted Successfully").build();
 		} catch (CarNotFoundException e) {
-			LOGGER.error("Failed to delete Car with id: " + id);
+			LOGGER.error("Failed to delete Car with id " + id);
 			return Response.status(Status.NOT_FOUND).entity("Car with id " + id + " not found").build();
 		}
 	}

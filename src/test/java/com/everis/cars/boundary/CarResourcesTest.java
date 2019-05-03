@@ -45,7 +45,7 @@ public class CarResourcesTest {
 	}
 
 	@Test
-	public void whenGettingCarById_returnOk() throws CarNotFoundException{
+	public void whenGettingCarById_returnOk() throws CarNotFoundException {
 
 		final Car oneCar = new Car();
 		oneCar.setBrand("Cool_car");
@@ -69,6 +69,28 @@ public class CarResourcesTest {
 		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
 	}
+
+	@Test
+	public void whenDeletingRightCar_returnOk() {
+
+		Mockito.mock(CarService.class);
+		final Response response = carResources.deleteCar(1);
+
+		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
+
+	}
+	
+	@Test
+	public void whenDeletingWithWrongId_returnCarNotFoundEx() {
+
+		Mockito.when(carResources.deleteCar(0)).thenThrow(CarNotFoundException.class);
+		final Response response = carResources.deleteCar(0);
+
+		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+	}
+	
+	
 
 	@Ignore
 	@Test

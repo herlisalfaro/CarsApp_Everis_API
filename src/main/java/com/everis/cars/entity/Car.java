@@ -23,14 +23,14 @@ public class Car {
 	
 	@Column(name="brand")
 	@NotNull(message = "Brand cannot be null")
-	@Size(min = 5, max = 20)
+	@Size(min = 1, max = 20, message = "Brand must be between 1-20 characters")
 	private String brand;
 	
 	@Column(name="registration")
 	private Timestamp registration;
 	
 	@Column(name="country")
-	@Size(min = 1, max = 20)
+	@Size(min = 1, max = 20, message = "Country must be between 1-20 characters")
 	@NotNull(message="Country cannot be null")
 	private String country; 
 	

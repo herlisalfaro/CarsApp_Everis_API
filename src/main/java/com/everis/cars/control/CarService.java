@@ -70,7 +70,7 @@ public class CarService {
 	 */
 	public Car createCar(final Car car) {
 		
-		LOGGER.info("Starting process for Creating Car: ");
+		LOGGER.info("Creating Car... ");
 		em.persist(car);
 		LOGGER.info("Created Car: " + car);
 		return car;
@@ -87,7 +87,7 @@ public class CarService {
 	 */
 	public Car updateCar(final int id, final Car car) throws CarNotFoundException {
 		
-		LOGGER.info("Starting process for Updating Car");
+		LOGGER.info("Updating Car...");
 		getCarById(id);
 		em.merge(car);
 		LOGGER.info("Updated Car: " + car);
@@ -103,7 +103,7 @@ public class CarService {
 	 */
 	public void deleteCar(final int id) throws CarNotFoundException {
 		
-		LOGGER.info("Starting process for Deleting Car: ");
+		LOGGER.info("Deleting Car... ");
 		final Car oneCar = getCarById(id);
 		LOGGER.info("Car's Id chosen for delete: " + id);
 		em.remove(oneCar);
