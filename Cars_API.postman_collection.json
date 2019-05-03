@@ -16,7 +16,7 @@
 							"var response = pm.response.json();",
 							"",
 							"pm.environment.set(\"carId\", response.id);",
-							"",
+							"pm.environment.set(\"wrongCarId\", 0);",
 							"",
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -58,7 +58,7 @@
 			"response": []
 		},
 		{
-			"name": "createCar Errors",
+			"name": "createCar Error",
 			"event": [
 				{
 					"listen": "test",
@@ -115,9 +115,7 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							""
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -164,9 +162,6 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"",
-							"pm.environment.set(\"carId\", response.id);",
-							"",
 							""
 						],
 						"type": "text/javascript"
@@ -218,10 +213,12 @@
 						"id": "75c23dc9-3fe4-4187-9b61-a3f5e4342d9c",
 						"exec": [
 							"",
-							"pm.environment.set(\"carId\", 0);",
-							"",
 							"pm.test(\"Car Not Found Exception\", function () {",
 							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Car with id 0 not found\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -242,7 +239,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"raw": "http://localhost:8080/cars/cars/{{wrongCarId}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -251,7 +248,7 @@
 					"path": [
 						"cars",
 						"cars",
-						"{{carId}}"
+						"{{wrongCarId}}"
 					]
 				}
 			},
@@ -266,7 +263,6 @@
 						"id": "d5082600-dd9a-4820-8691-3d5ed831b732",
 						"exec": [
 							"var response = pm.response.json();",
-							"pm.environment.set(\"carId\", response.id);",
 							"",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -295,7 +291,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 3,\n\t\"brand\": \"Cool_Car13\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
+					"raw": "{\n\t\"brand\": \"Cool_Car13\",\n\t\"country\": \"Disaster Village\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/cars/cars/{{carId}}",
@@ -321,13 +317,13 @@
 					"script": {
 						"id": "9d9afbcd-f399-4538-866d-31b75124b394",
 						"exec": [
-							"pm.environment.set(\"carId\", 0);",
-							"",
 							"pm.test(\"Car Not Found Exception\", function () {",
 							"    pm.response.to.have.status(404);",
 							"});",
 							"",
-							""
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Car with id 0 not found\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -344,10 +340,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"brand\": \"Cool_Car15\",\n\t\"country\": \"Disaster Village\"\n\t\n}"
+					"raw": "{\n\t\"brand\": \"Cool_Car15\",\n\t\"country\": \"Disaster Village\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"raw": "http://localhost:8080/cars/cars/{{wrongCarId}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -356,7 +352,7 @@
 					"path": [
 						"cars",
 						"cars",
-						"{{carId}}"
+						"{{wrongCarId}}"
 					]
 				}
 			},
@@ -419,8 +415,6 @@
 					"script": {
 						"id": "e8dd9b3b-3151-4406-9e76-4c53e605e91d",
 						"exec": [
-							"pm.environment.set(\"carId\", 0);",
-							"",
 							"pm.test(\"Status code is 404\", function () {",
 							"    pm.response.to.have.status(404);",
 							"});",
@@ -448,7 +442,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/cars/cars/{{carId}}",
+					"raw": "http://localhost:8080/cars/cars/{{wrongCarId}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -457,16 +451,78 @@
 					"path": [
 						"cars",
 						"cars",
-						"{{carId}}"
+						"{{wrongCarId}}"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "deleteCar Errors",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/cars/cars/{{carId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cars",
+								"cars",
+								"{{carId}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Payara Server  4.1.2.174 #badassfish"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Servlet/3.1 JSP/2.3 (Payara Server  4.1.2.174 #badassfish Java/Oracle Corporation/1.8)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 30 Apr 2019 10:49:08 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "23"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						}
+					],
+					"cookie": [],
+					"body": "Car with id 3 not found"
+				}
+			]
 		}
 	],
 	"variable": [
 		{
-			"id": "43a7ac6f-bee7-474f-930c-9bd15844d4ca",
+			"id": "a8661ef9-c76d-449a-baa2-da1391fcaf79",
 			"key": "carId",
 			"value": "1",
 			"type": "string"

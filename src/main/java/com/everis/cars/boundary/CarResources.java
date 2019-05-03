@@ -75,7 +75,7 @@ public class CarResources {
 
 		} catch (CarNotFoundException e) {
 			LOGGER.error("Car with id " + id + "Not Found");
-			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
+			return Response.status(Status.NOT_FOUND).entity("Car with id "+ id + " not found").build();
 		}
 
 	}
@@ -143,7 +143,7 @@ public class CarResources {
 				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
 				LOGGER.error("Car " + car + "with id: " + id + "Not Found");
-				return Response.status(Status.NOT_FOUND).entity(validatorsErrors).build();
+				return Response.status(Status.NOT_FOUND).entity("Car with id "+ id +" not found").build();
 			}
 
 		} else {
