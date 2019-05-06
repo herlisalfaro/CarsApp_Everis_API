@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 
 @Entity
 @Table(name="cars")
+@SequenceGenerator(name = "ids", initialValue = 1, allocationSize = 100)
 @NamedQueries({
 	@NamedQuery(name = "Car.findAll",query="SELECT c FROM Car c")
 })
@@ -17,7 +18,7 @@ import javax.validation.constraints.*;
 public class Car {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO) 
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ids") 
 	@Column(name="id")
 	private int id;
 	

@@ -17,8 +17,7 @@ import javax.ws.rs.core.Response;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import com.everis.cars.control.CarService;
 import com.everis.cars.entity.Car;
@@ -35,7 +34,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @OpenAPIDefinition(info = @Info(title = "CarsApp_API", version = "0.0", description = "Car' CRUD Functionality"))
 public class CarResources {
 
-	private final static Logger LOGGER = LogManager.getLogger(CarResources.class);
+	private final static Logger LOGGER = Logger.getLogger(CarResources.class);
 
 	@EJB
 	CarService carService;
@@ -84,7 +83,7 @@ public class CarResources {
 		LOGGER.info("Creating Car: ");
 		final ArrayList<String> validatorsErrors = ValidatorUtil.validate(car);
 		if (validatorsErrors.isEmpty()) {
-			LOGGER.info("Car" + car + "Created");
+			LOGGER.info("Car Created Info: " + car);
 			return Response.status(Status.CREATED).entity(carService.createCar(car)).build();
 		} else {
 			LOGGER.error("Failed to create new car");
@@ -95,9 +94,9 @@ public class CarResources {
 
 	@PUT
 	@Path("/{id}")
-	@Operation(description = "Create new car", responses = {
-			@ApiResponse(responseCode = "200", description = "Car has been created"),
-			@ApiResponse(responseCode = "400", description = "Could not create a new car"),
+	@Operation(description = "Update new car", responses = {
+			@ApiResponse(responseCode = "200", description = "Car has been updated"),
+			@ApiResponse(responseCode = "400", description = "Car cannot be udpated"),
 			@ApiResponse(responseCode = "404", description = "Car with such id doesn't exists") }
 
 	)
@@ -113,7 +112,7 @@ public class CarResources {
 				LOGGER.info(car + "with id: " + id + "Updated");
 				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
-				LOGGER.error("Car " + car + "with id: " + id + "Not Found");
+				LOGGER.error("Car " + car + "with id: " + id + " Not Found");
 				return Response.status(Status.NOT_FOUND).entity("Car with id " + id + " not found").build();
 			}
 

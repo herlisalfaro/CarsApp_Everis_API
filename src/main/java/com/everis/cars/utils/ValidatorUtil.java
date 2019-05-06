@@ -8,8 +8,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
+
 
 /**
  * 
@@ -23,7 +23,7 @@ public class ValidatorUtil {
 
 	private static Validator validator = factory.getValidator();
 
-	private final static Logger LOGGER = LogManager.getLogger(ValidatorUtil.class);
+	private final static Logger LOGGER = Logger.getLogger(ValidatorUtil.class);
 
 	/**
 	 * 
