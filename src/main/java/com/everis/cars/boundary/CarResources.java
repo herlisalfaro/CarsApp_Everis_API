@@ -65,7 +65,7 @@ public class CarResources {
 			return Response.ok().entity(carService.getCarById(id)).build();
 
 		} catch (CarNotFoundException e) {
-			LOGGER.error("Car with id " + id + "Not Found");
+			LOGGER.error("Car with id " + id + " Not Found");
 			return Response.status(Status.NOT_FOUND).entity("Car with id " + id + " not found").build();
 		}
 
