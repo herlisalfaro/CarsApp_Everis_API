@@ -139,8 +139,8 @@ public class CarResourcesTest {
 	car.setCountry("Germany");
 
 	final ArrayList<String> errors = new ArrayList<>();
-	errors.add("Brand cannot be null");
-	
+	errors.add("Brand Cannot Be Null");
+
 	PowerMockito.mockStatic(ValidatorUtil.class);
 
 	Mockito.when(ValidatorUtil.validate(car)).thenReturn(errors);
@@ -148,6 +148,66 @@ public class CarResourcesTest {
 	final Response response = carResources.createCar(car);
 
 	Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+	
+
+    }
+
+    @Test
+    public void whenUpdatingRightCar_returnOk() {
+
+	final int id = 1;
+	final Car car = new Car();
+	car.setBrand("Chachi_Way");
+	car.setCountry("CarTown");
+
+	final ArrayList<String> errors = new ArrayList<>();
+
+	try {
+	    PowerMockito.mockStatic(ValidatorUtil.class);
+	    Mockito.when(ValidatorUtil.validate(car)).thenReturn(errors);
+	    Mockito.when(carService.updateCar(id, car)).thenReturn(car);
+	    final Response response = carResources.updateCar(id, car);
+	    Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
+	    Assert.assertEquals(car, response.getEntity());
+	} catch (CarNotFoundException e) {
+	    Assert.fail();
+
+	}
+
+    }
+
+    @Test
+    public void whenUpdatingCarWithoutProperRequirements_returnsBadRequest() {
+	final int id = 1;
+	final Car car = new Car();
+	car.setCountry("CarTown");
+	final ArrayList<String> errors = new ArrayList<>();
+	errors.add("Brand Cannot Be Null");
+	
+	PowerMockito.mockStatic(ValidatorUtil.class);
+	Mockito.when(ValidatorUtil.validate(car)).thenReturn(errors);
+	
+	final Response response = carResources.updateCar(id,car);
+
+	Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+	
+
+    }
+    @Test
+    public void whenUpdatingCarWithWrongId_handlesCarNotFoundEx() {
+	final int id = 0;
+	final Car car = new Car();
+	final ArrayList<String> errors = new ArrayList<>();
+	
+	
+	PowerMockito.mockStatic(ValidatorUtil.class);
+	Mockito.when(ValidatorUtil.validate(car)).thenReturn(errors);
+	Mockito.when(carResources.updateCar(id, car)).thenThrow(CarNotFoundException.class);
+	
+	final Response response = carResources.updateCar(id, car);
+	
+	Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+	
 
     }
 

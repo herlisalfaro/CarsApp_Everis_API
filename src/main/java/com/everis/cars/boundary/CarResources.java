@@ -109,10 +109,10 @@ public class CarResources {
 		if (validatorsErrors.isEmpty()) {
 			try {
 				carService.updateCar(id, car);
-				LOGGER.info(car + "with id: " + id + "Updated");
+				LOGGER.info("Car Successfully Updated: " + car + "Id: " + id);
 				return Response.ok().entity(car).build();
 			} catch (CarNotFoundException e) {
-				LOGGER.error("Car " + car + "with id: " + id + " Not Found");
+				LOGGER.error("Car with id " + id + " Not Found");
 				return Response.status(Status.NOT_FOUND).entity("Car with id " + id + " not found").build();
 			}
 

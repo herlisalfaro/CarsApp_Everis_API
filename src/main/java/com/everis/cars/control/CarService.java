@@ -43,7 +43,7 @@ public class CarService {
 	 */
 	public Car getCarById(final int id) throws CarNotFoundException {
 
-		LOGGER.info("Starting process for Getting Car's Id: ");
+		LOGGER.info("Getting Car's Id: ");
 		Car oneCar = em.find(Car.class, id);
 		if (oneCar != null) {
 			LOGGER.info("Car selected: "+ oneCar);
@@ -87,10 +87,10 @@ public class CarService {
 	public Car updateCar(final int id, final Car car) throws CarNotFoundException {
 		
 		LOGGER.info("Updating Car...");
-		getCarById(id);
-		em.merge(car);
-		LOGGER.info("Updated Car: " + car);
-		return car;
+		final Car oneCar = getCarById(id);
+		em.merge(oneCar);
+		LOGGER.info("Updated Car: " + oneCar);
+		return oneCar;
 
 	}
 
