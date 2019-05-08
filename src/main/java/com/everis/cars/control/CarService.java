@@ -44,7 +44,7 @@ public class CarService {
      */
     public Car getCarById(final int id) throws CarNotFoundException {
 
-	LOGGER.info("Getting Car's Id: ");
+	LOGGER.info("Getting Car's Id... ");
 	Car oneCar = em.createNamedQuery("Car.findById", Car.class).setParameter("id", id).getSingleResult();
 	if (oneCar != null) {
 	    LOGGER.info("Car selected: " + oneCar);
@@ -55,7 +55,8 @@ public class CarService {
 	    throw new CarNotFoundException(id);
 
 	}
-
+	
+	
     }
 
     /**
@@ -81,13 +82,12 @@ public class CarService {
      * @return {com.everis.cars.Car} Updated Car merged into the Entity Manager
      * @throws CarNotFoundException Car Entity's id not found
      */
-    public Car updateCar(final int id, final Car car) throws CarNotFoundException {
+    public Car updateCar(final int id, Car car) throws CarNotFoundException {
 
 	LOGGER.info("Updating Car...");
-	final Car oneCar = getCarById(id);
-	em.merge(oneCar);
-	LOGGER.info("Updated Car: " + oneCar);
-	return oneCar;
+	em.merge(car);
+	LOGGER.info("Selected Car for Updating: " + car);
+	return car;
 
     }
 
@@ -96,9 +96,11 @@ public class CarService {
 	Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 
 	final Car oneCar = getCarById(id);
+	LOGGER.info("Softdeleting Car with Id: " + id);
 	oneCar.setSoftDeleted(true);
 	oneCar.setSoftDeleted_at(currentDate);
 	em.merge(oneCar);
+	LOGGER.info("SoftDeleting Info: " + oneCar);
 	return oneCar;
 
     }
@@ -110,7 +112,7 @@ public class CarService {
      * @throws CarNotFoundException Car Entity's id not found
      */
     public void hardDeleteCar(final int id) throws CarNotFoundException {
-	
+
 	LOGGER.info("Deleting Car... ");
 	final Car oneCar = getCarById(id);
 	LOGGER.info("Car's Id chosen for delete: " + id);

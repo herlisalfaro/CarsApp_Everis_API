@@ -36,11 +36,11 @@ public class ValidatorUtil {
 	 * 
 	 */
 
-	public static <T> ArrayList<String> validate(T Entity) {
+	public static <T> ArrayList<String> validate(T car) {
 
-		LOGGER.info("Validating an entity: " + Entity);
+		LOGGER.info("Validating an entity: " + car);
 
-		Set<ConstraintViolation<T>> violations = validator.validate(Entity);
+		Set<ConstraintViolation<T>> violations = validator.validate(car);
 
 		ArrayList<String> violationMessages = new ArrayList<String>();
 
@@ -50,6 +50,7 @@ public class ValidatorUtil {
 
 		}
 
+		LOGGER.info("Validating Errors List: " + violationMessages);
 		return violationMessages;
 
 	}

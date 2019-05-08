@@ -7,7 +7,6 @@ import javax.ws.rs.DefaultValue;
 
 @Entity
 @Table(name = "cars")
-@SequenceGenerator(name = "ids", initialValue = 1, allocationSize = 100)
 @NamedQueries(value = {
 	@NamedQuery(name = "Car.findAll", query = "select c from Car c where c.softDeleted = false"),
 	@NamedQuery(name = "Car.findById", query = "select c from Car c where c.softDeleted = false AND c.id = :id"),
@@ -17,8 +16,9 @@ import javax.ws.rs.DefaultValue;
 public class Car {	
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ids")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
+    @NotNull
     private int id;
 
     @Column(name = "BRAND")
