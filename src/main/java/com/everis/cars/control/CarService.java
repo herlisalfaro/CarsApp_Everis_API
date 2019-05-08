@@ -110,11 +110,10 @@ public class CarService {
      * @throws CarNotFoundException Car Entity's id not found
      */
     public void hardDeleteCar(final int id) throws CarNotFoundException {
-
-	final Car oneCar = softDeleteCar(id);
-	//LOGGER.info("Deleting Car... ");
-	//final Car oneCar = getCarById(id);
-	//LOGGER.info("Car's Id chosen for delete: " + id);
+	
+	LOGGER.info("Deleting Car... ");
+	final Car oneCar = getCarById(id);
+	LOGGER.info("Car's Id chosen for delete: " + id);
 	em.remove(oneCar);
 	LOGGER.info("Deleted Car: " + oneCar);
     }

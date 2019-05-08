@@ -133,7 +133,8 @@ public class CarResources {
 	public Response deleteCar(final @PathParam("id") int id) {
 
 		try {
-			carService.hardDeleteCar(id);
+			carService.softDeleteCar(id);
+		    	carService.hardDeleteCar(id);
 			LOGGER.info("Car with id " + id + " Deleted");
 			return Response.ok().entity("Car Deleted Successfully").build();
 		} catch (CarNotFoundException e) {
