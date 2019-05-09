@@ -8,8 +8,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
+
 
 /**
  * 
@@ -23,7 +23,7 @@ public class ValidatorUtil {
 
 	private static Validator validator = factory.getValidator();
 
-	private final static Logger LOGGER = LogManager.getLogger(ValidatorUtil.class);
+	private final static Logger LOGGER = Logger.getLogger(ValidatorUtil.class);
 
 	/**
 	 * 
@@ -36,11 +36,11 @@ public class ValidatorUtil {
 	 * 
 	 */
 
-	public static <T> ArrayList<String> validate(T Entity) {
+	public static <T> ArrayList<String> validate(T car) {
 
-		LOGGER.info("Validating an entity: " + Entity);
+		LOGGER.info("Validating an entity: " + car);
 
-		Set<ConstraintViolation<T>> violations = validator.validate(Entity);
+		Set<ConstraintViolation<T>> violations = validator.validate(car);
 
 		ArrayList<String> violationMessages = new ArrayList<String>();
 
@@ -50,6 +50,7 @@ public class ValidatorUtil {
 
 		}
 
+		LOGGER.info("Validating Errors List: " + violationMessages);
 		return violationMessages;
 
 	}
