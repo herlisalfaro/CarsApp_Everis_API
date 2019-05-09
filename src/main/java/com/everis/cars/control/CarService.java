@@ -77,7 +77,7 @@ public class CarService {
     /**
      * Method to update Car Entities using its id
      * 
-     * @param {com.everis.cars.Car} [id] Car Entity's id to be deleted
+     * @param {com.everis.cars.Car} [id] Car Entity's id to be updated
      * @param {com.everis.cars.Car} [car] Car Entity itself to be updated
      * @return {com.everis.cars.Car} Updated Car merged into the Entity Manager
      * @throws CarNotFoundException Car Entity's id not found
@@ -90,7 +90,16 @@ public class CarService {
 	return car;
 
     }
+    
+    
 
+    /**
+     * Method to mark cars to be deleted
+     * 
+     * @param {com.everis.cars.Car} [id] Car Entity's id to be marked
+     * @return {com.everis.cars.Car} [oneCar] Car Entity already marked
+     * @throws CarNotFoundException Car Entity's id not found
+     */
     public Car softDeleteCar(final int id) throws CarNotFoundException {
 
 	Timestamp currentDate = new Timestamp(System.currentTimeMillis());
@@ -104,6 +113,20 @@ public class CarService {
 	return oneCar;
 
     }
+    
+    /**
+     * Method to get cars that must be completely removed from application
+     * 
+     * @return {com.everis.cars.CarService} [listDeletedCars] List of Cars ready to be removed
+     */
+    public List<Car> getReadyForDeletion() {
+
+   	LOGGER.info("Getting all Cars' Ready for Deletion: ");
+   	List<Car> listDeletedCars = em.createNamedQuery("Car.findAllDeleted", Car.class).getResultList();
+   	LOGGER.info("Cars Ready for Deletion: " + listDeletedCars);
+   	return listDeletedCars;
+
+       }
 
     /**
      * Method to delete Car Entities using its id
