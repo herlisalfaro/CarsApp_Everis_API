@@ -8,7 +8,7 @@ import javax.jms.*;
 
 @Stateless
 @LocalBean
-public class MessageProducer {
+public class CarMessageProducer {
 
         @Inject
         JMSContext ctx;

@@ -10,11 +10,11 @@ import javax.ejb.*;
 @MessageDriven(activationConfig = {
 	@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/CarsApp_API_ManagementQueue"),
 	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") })
-public class MessageConsumer implements MessageListener {
+public class CarMessageConsumer implements MessageListener {
     
-    private final static Logger LOGGER = Logger.getLogger(MessageConsumer.class);
+    private final static Logger LOGGER = Logger.getLogger(CarMessageConsumer.class);
 
-    public MessageConsumer() {
+    public CarMessageConsumer() {
     }
 
     @Override
