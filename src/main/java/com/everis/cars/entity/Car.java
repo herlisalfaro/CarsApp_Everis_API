@@ -1,6 +1,8 @@
 package com.everis.cars.entity;
 
 import java.sql.Timestamp;
+
+import javax.json.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.DefaultValue;

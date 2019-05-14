@@ -16,7 +16,7 @@ import com.everis.cars.control.CarService;
 @Singleton
 public class PermanentDeletionManager {
     
-    private final static Logger LOGGER = Logger.getLogger(CarService.class);
+    private final static Logger LOGGER = Logger.getLogger(PermanentDeletionManager.class);
 
     
     @EJB
