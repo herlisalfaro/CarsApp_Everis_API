@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.Timer;
 
 import org.apache.log4j.Logger;
 
@@ -22,11 +23,11 @@ public class PermanentDeletionManager {
     private CarService service;
     
     @Schedule(second = "0", minute = "1", hour = "0")
-    public final void purgeOldEntries(final int id) {
+    public final void purgeOldEntries(Timer timer) {
 	
 	LOGGER.info("Deleting Cars ready for permanent removal...");
 	List<Car> forDeletion = service.getReadyForDeletion();
-	
+	final int id = 0;
 	for(Car car : forDeletion) {
 	    service.hardDeleteCar(id);
 	    LOGGER.info("Car chosen for deleting: " + car);
