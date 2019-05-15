@@ -4,16 +4,13 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.jms.Message;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Logger;
 
 import com.everis.cars.entity.Car;
 import com.everis.cars.exceptions.CarNotFoundException;
-import com.everis.cars.boundary.CarMessageConsumer;
-import com.everis.cars.boundary.CarMessageProducer;
+
 
 @Stateless
 public class CarService {

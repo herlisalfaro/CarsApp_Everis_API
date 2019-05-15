@@ -1,5 +1,6 @@
 package com.everis.cars.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -15,8 +16,10 @@ import javax.ws.rs.DefaultValue;
 	@NamedQuery(name = "Car.findAllDeleted", query = "select c from Car c where c.softDeleted = true")
 }
 )
-public class Car {	
+public class Car implements Serializable{	
     
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
