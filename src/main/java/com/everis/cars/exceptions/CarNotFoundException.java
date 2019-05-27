@@ -1,9 +1,9 @@
 package com.everis.cars.exceptions;
 
-import java.lang.Exception;
+import javax.persistence.NoResultException;
 
 @SuppressWarnings("serial")
-public class CarNotFoundException extends Exception {
+public class CarNotFoundException extends NoResultException {
 	private final int carId;
 
 
